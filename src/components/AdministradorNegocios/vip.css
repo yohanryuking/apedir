@@ -1,0 +1,10 @@
+.tarjeta-negocio-card-vip{
+    max-height: 386px;
+}
+
+@media only screen and (max-width: 420px) {
+    
+    .tarjeta-negocio-card-vip{
+        max-height: 234px;
+    }
+}

@@ -1,0 +1,74 @@
+
+.slider-negocios {
+    width: 100%;
+    height: 100%;
+    padding: 10px 20px 10px 0px;
+  
+  }
+
+  .card-producto-list-home{
+    height: 350px;
+  }
+  
+  .lazyload-producto-home{
+    width: 100%;
+    height: 350px !important;
+    /* background: gray; */
+  }
+  .bg-black-bottom-top{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) ,rgba(0, 0, 0, 0.192), rgba(0,0,0,0.65) );
+  }
+  
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+  
+    /* Center slide text vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .titulo-card-producto-panntalla-principal {
+    max-width: 10ch;
+    font-size: 1rem;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+
+  @media screen and (max-width: 440px) {
+    
+    .titulo-card-producto-panntalla-principal {
+      max-width: 10ch;
+    }
+    .card-producto-list-home{
+      height: 268px;
+    }
+    .lazyload-producto-home{
+      height: 268px !important;
+      /* background: gray; */
+    }
+    
+  }
+  @media screen and (max-width: 338px) {
+    
+    .titulo-card-producto-panntalla-principal {
+      max-width: 10ch;
+    }
+  }

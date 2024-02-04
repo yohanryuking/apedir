@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'GIndR';
+    src: url('assets/fonts/GlacialIndifference-Regular.otf') format('truetype');
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Ocultar scrollbar para navegadores basados en WebKit */
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -ms-overflow-style: none;
+    /* IE y Edge */
+    scrollbar-width: none;
+    /* Firefox */
+
+}
+
+:root {
+    font-family: 'GIndR', sans-serif;
+    --primary: "#5E17EB";
+}
+
+/* Ocultar barra de desplazamiento para Chrome, Safari y Opera */
+.list-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Ocultar barra de desplazamiento para IE, Edge y Firefox */
+.list-container {
+    -ms-overflow-style: none;
+    /* IE y Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    position: static;
+}
+
+li {
+    list-style: none;
+}
+
+.sadasdj {
+    position: static;
+    overflow-y: scroll;
+}
