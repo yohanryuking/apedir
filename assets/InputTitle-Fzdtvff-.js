@@ -1,0 +1,1 @@
+import{R as n,j as o,i as s}from"./vendor-TeGnUX-f.js";function i({value:e,setValue:u}){const[l,t]=n.useState(0);return o.jsx(s,{type:"text",variant:"bordered",label:"Nombre",placeholder:"Escriba el nombre de su negocio",labelPlacement:"outside",value:e.current.name,onChange:r=>{e.current={...e.current,name:r.target.value},t(a=>a+1)}})}export{i as default};
