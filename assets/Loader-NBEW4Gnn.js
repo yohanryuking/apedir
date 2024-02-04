@@ -1,1 +1,0 @@
-import{j as e,s as o}from"./vendor-wMn6iGPg.js";function a({text:r}){return e.jsx("div",{style:{width:"100%",display:"grid",placeItems:"center"},children:e.jsx(o,{color:"secondary",label:r!==void 0?r:"Cargando...",labelColor:"secondary"})})}export{a as L};
