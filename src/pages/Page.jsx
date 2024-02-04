@@ -8,7 +8,6 @@ const FiltredItems = React.lazy(() => import("../components/header/Search/Filtre
 // import FilterBar from "../components/header/Search/FilterBar";
 // import FiltredItems from "../components/header/Search/FiltredItems";
 
-
 export default function Page({ children }) {
   const showFilter = useShowFilter(state => state.showFilter)
   return (
