@@ -1,79 +1,55 @@
-import React, { useEffect } from 'react';
-import { isAuthenticated, signOut } from '../services/auth';
+import React, { useEffect, useState } from 'react';
+import { supabase } from '../services/client';
 import { useNavigate } from 'react-router-dom';
-import { styled } from '@mui/system';
-import { Button, Typography, Paper } from '@mui/material';
-import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // Importa los estilos del carrusel
+import { Button, Typography, Paper, BottomNavigation, BottomNavigationAction, Box } from '@mui/material';
+import HomeIcon from '@mui/icons-material/Home';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-const Root = styled('div')(({ theme }) => ({
-  flexGrow: 1,
-  padding: theme.spacing(2),
-}));
-
-const Section = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2),
-  marginBottom: theme.spacing(4),
-}));
-
-const LogoutButton = styled(Button)(({ theme }) => ({
-  position: 'absolute',
-  top: theme.spacing(2),
-  right: theme.spacing(2),
-}));
 
 const Home = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null)
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
-    const isLogged = isAuthenticated();
-    if (!isLogged) {
-      navigate('/login');
-    }
-  }, [navigate]);
+    const checkAuth = async () => {
+      const session = await supabase.auth.getSession();
+      const user = await supabase.auth.getUser();
+      console.log(user.data.user.email);
+
+  if (session) {
+    console.log(session.data.session.user.email);
+  } else {
+    console.log('no hay sesión');
+  }
+    };
+
+    checkAuth();
+  }, []);
 
   const handleLogout = async () => {
-    await signOut();
-    navigate('/login');
+    await supabase.auth.signOut();
+    // navigate('/login');
   };
 
   return (
-    <Root>
-      <LogoutButton variant="outlined" onClick={handleLogout}>
-        Cerrar sesión
-      </LogoutButton>
+    <Box>
+      {/* El resto de tu código */}
 
-      <Carousel>
-        {/* Aquí puedes agregar tus imágenes al carrusel */}
-        <div>
-          <img src="image1.jpg" alt="Imagen 1" />
-        </div>
-        <div>
-          <img src="image2.jpg" alt="Imagen 2" />
-        </div>
-        {/* Agrega más imágenes según sea necesario */}
-      </Carousel>
-
-      <Typography variant="h4" gutterBottom>
-        Section 1
-      </Typography>
-      <Section>
-        <Typography variant="body1">
-          This is an example section.
-        </Typography>
-      </Section>
-
-      <Typography variant="h4" gutterBottom>
-        Section 2
-      </Typography>
-      <Section>
-        <Typography variant="body1">
-          This is another example section.
-        </Typography>
-      </Section>
-
-      {/* Add more sections as needed */}
-    </Root>
+      <BottomNavigation
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        showLabels
+        sx={{ width: '100%', position: 'fixed', bottom: 0 }}
+      >
+        <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+        <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
+      </BottomNavigation>
+    </Box>
   );
 };
 
