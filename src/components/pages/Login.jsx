@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { supabase } from '../services/client';
-import { signIn, signUp } from '../services/auth';
+import { supabase } from '../../services/client';
+import { signIn, signUp } from '../../services/auth';
 import { TextField, Button, Typography, Box, InputAdornment, IconButton, Grid } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { FaApple } from 'react-icons/fa';
-import Image from '../assets/images/img107.jpg'; // Asegúrate de reemplazar esto con la ruta a tu imagen
+import Image from '../../assets/images/img107.jpg'; // Asegúrate de reemplazar esto con la ruta a tu imagen
 
 const Login = () => {
     const [email, setEmail] = useState('');

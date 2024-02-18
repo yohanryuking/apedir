@@ -2,11 +2,11 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import {CssBaseline} from '@mui/material';
 import { supabase } from './services/client';
 // import { Home } from './components/';
-import Home from './components/Home';
-import Login from './components/Login';
-import NotFound from './components/NotFound';
-import Verification from './components/Verification';
-import Pruebas from './components/Pruebas';
+import Home from './components/pages/Home';
+import Login from './components/pages/Login';
+import NotFound from './components/pages/NotFound';
+import Verification from './components/pages/Verification';
+import Pruebas from './components/pages/Pruebas';
 import { useEffect } from 'react';
 
 function App() {
