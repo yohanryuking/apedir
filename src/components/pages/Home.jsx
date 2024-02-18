@@ -11,11 +11,11 @@ import Campaign from '@mui/icons-material/Campaign'; // Icono de campaña
 import Image from '../../assets/images/img107.jpg';
 import HomeComp from '../HomeComp'; // Componente de inicio
 import CartComp from '../CartComp'; // Componente de carrito de compras
+import ProfileComp from '../ProfileComp'; // Componente de perfil
 
 // Componentes para mostrar
 const Calendar = () => <Box>Calendar</Box>;
 const Announcements = () => <Box>Announcements</Box>;
-const Profile = () => <Box>Profile</Box>;
 
 // Componente Home
 const Home = () => {
@@ -58,7 +58,7 @@ const Home = () => {
         setCurrentComponent(<Announcements />);
         break;
       case 4:
-        setCurrentComponent(<Profile />);
+        setCurrentComponent(<ProfileComp />);
         break;
       default:
         setCurrentComponent(<HomeComp />);
@@ -68,13 +68,13 @@ const Home = () => {
   // Renderizar el componente
   return (
     <Box>
-      {currentComponent}
+      <Box sx={{ width: '100vw', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{currentComponent}</Box>
       <BottomNavigation value={value} onChange={handleChange} showLabels sx={{ width: '100%', position: 'fixed', bottom: 0 }}>
         <BottomNavigationAction label="Home" icon={<HomeIcon />} />
         <BottomNavigationAction label="Calendar" icon={<CalendarTodayIcon />} />
         <BottomNavigationAction label="Shopping" icon={<ShoppingCartIcon />} />
         <BottomNavigationAction label="Announcements" icon={<Campaign />} />
-        <BottomNavigationAction label="Profile" icon={<Avatar src={Image}/>} />
+        <BottomNavigationAction label="Profile" icon={<Avatar src={Image} />} />
       </BottomNavigation>
     </Box>
   );
