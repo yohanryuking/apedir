@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { supabase } from '../../services/client';
-import { signIn, signUp } from '../../services/auth';
 import { TextField, Button, Typography, Box, InputAdornment, IconButton, Grid, Snackbar } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -28,7 +27,7 @@ const Login = () => {
         })
         if (error) {
             console.log(error);
-            openSnackbar(error);
+            openSnackbar(error.message);
         } else {
             openSnackbar("All Good! ");
             navigate('/');
@@ -123,6 +122,11 @@ const Login = () => {
                 >
                     Iniciar sesión con Apple
                 </Button>
+                <Snackbar open={open} autoHideDuration={3000}>
+                    <Typography variant="body1">
+                        {message}
+                    </Typography>
+                </Snackbar>
             </Grid>
         </Grid>
     );
