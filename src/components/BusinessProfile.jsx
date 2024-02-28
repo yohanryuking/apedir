@@ -1,15 +1,18 @@
 import React from 'react';
+import { supabase } from '../services/client';
 import { Box, Typography, Avatar, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles({
   root: {
     backgroundColor: '#555',
+    height: '35px',
   },
   actionItem: {
     color: '#fff',
-    borderTopLeftRadius: '10px',
-    borderTopRightRadius: '10px',
+    borderTopLeftRadius: '20px',
+    borderTopRightRadius: '20px',
+    padding: '6px 12px',
   },
   selected: {
     color: '#555',

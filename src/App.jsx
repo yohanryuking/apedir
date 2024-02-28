@@ -7,6 +7,7 @@ import Login from './components/pages/Login';
 import NotFound from './components/pages/NotFound';
 import Verification from './components/pages/Verification';
 import Pruebas from './components/pages/Pruebas';
+import Register from './components/pages/Register';
 import { useEffect } from 'react';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verification" element={<Verification />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/pruebas" element={<Pruebas />} />
       </Routes>

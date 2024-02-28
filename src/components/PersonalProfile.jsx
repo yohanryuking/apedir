@@ -1,6 +1,7 @@
 import React from 'react';
 import { Avatar, Box, Button, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import { supabase } from '../services/client';
 
 const BlurredBackground = styled(Box)(({ theme }) => ({
   backgroundImage: `url('profilePicture.jpg')`,
@@ -31,6 +32,7 @@ const PersonalProfile = () => {
 
   const handleLogout = () => {
     // Logic to handle logout
+    supabase.auth.signOut();
   };
 
   return (

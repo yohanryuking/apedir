@@ -28,14 +28,18 @@ const Home = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const session = await supabase.auth.getSession(); // Obtener la sesión
+      
+
+      if (!session) {
+        console.log('no hay sesión'); // Si no hay sesión, imprimir un mensaje
+        navigate('/login'); 
+        
+      } else {
+        console.log(session.data.session.user.email); // Si hay sesión, imprimir el email del usuario
+      }
+
       const user = await supabase.auth.getUser(); // Obtener el usuario
       console.log(user.data.user.email); // Imprimir el email del usuario
-
-      if (session) {
-        console.log(session.data.session.user.email); // Si hay sesión, imprimir el email del usuario
-      } else {
-        console.log('no hay sesión'); // Si no hay sesión, imprimir un mensaje
-      }
     };
 
     checkAuth(); // Llamar a la función de verificación de autenticación
