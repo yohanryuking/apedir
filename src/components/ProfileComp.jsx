@@ -19,7 +19,7 @@ const ProfileComp = () => {
         </Button>
       </Box>
       <Box>
-        {isPersonalProfile ? <PersonalProfile /> : <CrearNegocio />}
+        {isPersonalProfile ? <PersonalProfile /> : <BusinessProfile />}
       </Box>
     </Box>
   );

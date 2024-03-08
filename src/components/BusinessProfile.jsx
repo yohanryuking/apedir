@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { supabase } from '../services/client';
-import { Box, Typography, Avatar, BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { Box, Typography, Avatar, BottomNavigation, BottomNavigationAction, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+
 
 const useStyles = makeStyles({
   root: {
@@ -23,15 +24,38 @@ const useStyles = makeStyles({
 const BusinessProfile = () => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [business, setBusiness] = useState(null);
+
+  useEffect(() => {
+  const fetchBusiness = async () => {
+    // Aquí debes hacer una solicitud a tu base de datos para obtener los negocios asociados al perfil del usuario
+    // Puedes usar supabase para hacer la solicitud
+    const { data, error } = await supabase
+      .from('business')
+      .select('*')
+      .eq('owner', (await supabase.auth.getUser()).data.user.email);
+    if (error) {
+      console.error('Error fetching business:', error.message);
+    } else {
+      setBusiness(data[0]);
+      console.log(data[0])
+    }
+  };
+  fetchBusiness();
+}, []);
+
+const handleCreateBusiness = () => {
+  // Aquí debes implementar la lógica para crear un nuevo negocio
+};
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Box sx={{ p: 2, backgroundColor: '#555', color: '#fff', display: 'flex', alignItems: 'center' }}>
         <Avatar sx={{ bgcolor: 'secondary.main' }}>Logo</Avatar>
         <Box sx={{ flexGrow: 1 }} />
-        <Avatar sx={{ bgcolor: 'secondary.main' }}>N</Avatar>
+        <Avatar sx={{ bgcolor: 'secondary.main' }}>{business?.owner}</Avatar>
         <Box sx={{ ml: 2 }}>
-          <Typography variant="h6">Nombre del Negocio</Typography>
+          <Typography variant="h6">{business?.name}</Typography>
           <Typography variant="body2">Plan Premium</Typography>
         </Box>
       </Box>

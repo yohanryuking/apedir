@@ -35,11 +35,11 @@ const Home = () => {
         navigate('/login'); 
         
       } else {
-        console.log(session.data.session.user.email); // Si hay sesión, imprimir el email del usuario
+        console.log(session.data.session); // Si hay sesión, imprimir el email del usuario
       }
 
       const user = await supabase.auth.getUser(); // Obtener el usuario
-      console.log(user.data.user.email); // Imprimir el email del usuario
+      console.log(user.data.user.id); // Imprimir el email del usuario
     };
 
     checkAuth(); // Llamar a la función de verificación de autenticación
@@ -62,7 +62,7 @@ const Home = () => {
         setCurrentComponent(<Announcements />);
         break;
       case 4:
-        setCurrentComponent(<ProfileComp />);
+        navigate('/profile')
         break;
       default:
         setCurrentComponent(<HomeComp />);
