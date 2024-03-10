@@ -90,7 +90,7 @@ const PersonalProfile = () => {
     } else if (plan == 3) {
       return 'Ultra';
     }
-    return 'Sin ';
+    return 'Sin Plan';
   };
 
   const handleLogout = () => {
