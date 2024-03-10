@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Button, Grid, List, ListItem, ListItemText, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, List, ListItem, ListItemText, TextField, Typography, IconButton, Modal } from '@mui/material';
 import { styled } from '@mui/system';
 import { supabase } from '../services/client';
 import { useNavigate } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
 
 const BlurredBackground = styled(Box)(({ theme }) => ({
   backgroundImage: `url('profilePicture.jpg')`,
@@ -21,6 +22,7 @@ const ProfilePicture = styled(Avatar)(({ theme }) => ({
 
 const PersonalProfile = () => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [user, setUser] = useState();
   const [avatarUrl, setAvatarUrl] = useState(null);
   const [name, setName] = useState('');
@@ -41,6 +43,14 @@ const PersonalProfile = () => {
   //     setAvatarUrl(url);
   //   }
   // };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -105,7 +115,20 @@ const PersonalProfile = () => {
       bgcolor: 'background.default'
     }}>
       <BlurredBackground>
-        <ProfilePicture src={avatarUrl || 'defaultAvatar.jpg'} />
+        <ProfilePicture src={avatarUrl || 'defaultAvatar.jpg'}>
+          <IconButton onClick={handleOpen}>
+            <EditIcon />
+          </IconButton>
+        </ProfilePicture>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="edit-avatar-modal"
+          aria-describedby="modal-for-editing-avatar"
+        >
+          {/* <EditarFoto /> */}
+          <p>editar fotos</p>
+        </Modal>
       </BlurredBackground>
       <Box sx={{ p: 2, bgcolor: 'background.paper' }}>
         <Typography variant="h4" component="div" gutterBottom style={{ textAlign: 'center' }}>
