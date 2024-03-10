@@ -82,15 +82,15 @@ const PersonalProfile = () => {
 
   const planLevel = (plan) => {
     if (plan == 0) {
-      return 'Básico';
+      return 'Gratis';
     } else if (plan == 1) {
-      return 'Premium';
+      return 'Básico';
     } else if (plan == 2) {
-      return 'Empresarial';
+      return 'Plus';
     } else if (plan == 3) {
-      return 'Empresarial Plus';
+      return 'Ultra';
     }
-    return 'No definido';
+    return 'Sin ';
   };
 
   const handleLogout = () => {
@@ -108,7 +108,7 @@ const PersonalProfile = () => {
         <ProfilePicture src={avatarUrl || 'defaultAvatar.jpg'} />
       </BlurredBackground>
       <Box sx={{ p: 2, bgcolor: 'background.paper' }}>
-        <Typography variant="h4" component="div" gutterBottom>
+        <Typography variant="h4" component="div" gutterBottom style={{ textAlign: 'center' }}>
           {user?.name}
         </Typography>
         <Grid container spacing={2}>
@@ -133,8 +133,11 @@ const PersonalProfile = () => {
           <Grid item xs={12} md={6}>
             <TextField label="Teléfono" value={phone} onChange={(e) => setPhone(e.target.value)} fullWidth margin="normal" />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} spacing={2}>
             <ListItemText primary="Plan Actual" secondary={planLevel(user?.plan)} />
+            <Grid item xs={12} md={6} >
+              <Button variant="contained" color="primary" className='spacio'>Cambiar Plan</Button>
+            </Grid>
           </Grid>
         </Grid>
         <Button variant="contained" color="secondary" onClick={handleLogout} fullWidth>
