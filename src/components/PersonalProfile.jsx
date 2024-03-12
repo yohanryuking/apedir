@@ -168,7 +168,7 @@ const PersonalProfile = () => {
           <Grid item xs={12} md={6} spacing={2}>
             <ListItemText primary="Plan Actual" secondary={planLevel(user?.plan)} />
             <Grid item xs={12} md={6} >
-              <Button variant="contained" color="primary" className='spacio'>Cambiar Plan</Button>
+              <Button variant="contained" color="primary" onClick={()=>{navigate('/plans')}}>Cambiar Plan</Button>
             </Grid>
           </Grid>
         </Grid>
