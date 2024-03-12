@@ -12,7 +12,6 @@ import BusinesNotFound from './components/adminPanel/BusinesNotFound';
 import PersonalProfile from './components/PersonalProfile';
 import BusinessProfile from './components/BusinessProfile';
 import { useEffect } from 'react';
-import ProgressBar from './components/utils/ProgresBar';
 import TablaVentas from './components/adminPanel/tableVentas';
 import './App.css';
 
