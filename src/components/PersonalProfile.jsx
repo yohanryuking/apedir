@@ -1,8 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Avatar, Box, Button, Grid, List, ListItem, ListItemText, TextField, Typography } from '@mui/material';
+import React, { useEffect, useRef, useState, Suspense } from 'react';
+import { Avatar, Box, Button, Grid, List, ListItem, ListItemText, TextField, Typography, IconButton, Modal } from '@mui/material';
 import { styled } from '@mui/system';
 import { supabase } from '../services/client';
 import { useNavigate } from 'react-router-dom';
+import EditIcon from '@mui/icons-material/Edit';
+import LoadingAnimation from './utils/LoadingAnimation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+// import ImagesController from './ImagesController';
+const ImagesController = React.lazy(() => import('./ImagesController'));
+import CloseIcon from '@mui/icons-material/Close';
 
 const BlurredBackground = styled(Box)(({ theme }) => ({
   backgroundImage: `url('profilePicture.jpg')`,
@@ -21,44 +28,43 @@ const ProfilePicture = styled(Avatar)(({ theme }) => ({
 
 const PersonalProfile = () => {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const [user, setUser] = useState();
-  const [avatarUrl, setAvatarUrl] = useState(null);
+  const [avatarUrl, setAvatarUrl] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [id, setId] = useState('');
 
-  // const fetchAvatarUrl = async () => {
-  //   const filePath = `profiles/${user.id}/avatar.jpg`;
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
-  //   const { data: url, error: urlError } = await supabase.storage
-  //     .from('avatars')
-  //     .createSignedUrl(filePath, 60);
-
-  //   if (urlError) {
-  //     console.error('Error fetching avatar URL:', urlError.message);
-  //   } else {
-  //     setAvatarUrl(url);
-  //   }
-  // };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userSB = await supabase.auth.getUser();
-      const userId = userSB.data.user.id;
-      setId(userId);
-
-      const { data, error } = await supabase
-        .from('users')
-        .select('name,phone,plan,email').eq('id', userId);
-      if (error) {
-        console.error('Error fetching user profile:', error.message);
-      } else {
-        setUser(data[0]);
-        setName(data[0]?.name);
-        setEmail(data[0]?.email);
-        setPhone(data[0]?.phone);
-        // fetchAvatarUrl();
+      try {
+        const userId = (await supabase.auth.getUser()).data.user.id;
+        console.log(userId)
+          setId(userId);
+          const { data, error } = await supabase
+            .from('users')
+            .select('name,phone,plan,email,photoUrl').eq('id', userId);
+          if (error) {
+            console.error('Error fetching user profile:', error.message);
+            toast.error('Error fetching user profile: ' + error.message);
+          } else {
+            setUser(data[0]);
+            setName(data[0]?.name);
+            setEmail(data[0]?.email);
+            setPhone(data[0]?.phone);
+            setAvatarUrl(data[0]?.photoUrl)
+          }
+      } catch (error) {
+        toast.error('Problemas para conectar con el servidor, revise su conexion a internet');
       }
     }
     fetchUser();
@@ -75,8 +81,10 @@ const PersonalProfile = () => {
       .eq('id', id);
     if (error) {
       console.error('Error updating user profile:', error.message);
+      toast.error('Error fetching user profile: ' + error.message);
     } else {
       console.log('User profile updated successfully:', data);
+      toast.success('User profile updated successfully'); z
     }
   };
 
@@ -90,7 +98,7 @@ const PersonalProfile = () => {
     } else if (plan == 3) {
       return 'Ultra';
     }
-    return 'Sin ';
+    return 'Sin Plan';
   };
 
   const handleLogout = () => {
@@ -99,14 +107,38 @@ const PersonalProfile = () => {
   };
 
   return (
-    <Box sx={{
+    <Box position="relative" sx={{
       width: { xs: '100%', md: '100vw' },
       height: '100vh',
       bgcolor: 'background.default'
     }}>
-      <BlurredBackground>
-        <ProfilePicture src={avatarUrl || 'defaultAvatar.jpg'} />
-      </BlurredBackground>
+      <ToastContainer />
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <ProfilePicture src={'https://duerpqsxmxeokygbzexa.supabase.co/storage/v1/object/public/' + avatarUrl || 'defaultAvatar.jpg'} />
+        <Box >
+          <IconButton
+            onClick={handleOpen}
+            sx={{
+              backgroundColor: 'white',
+              color: 'black',
+              '&:hover': { backgroundColor: 'grey.200' },
+            }}
+          >
+            <EditIcon />
+          </IconButton>
+        </Box>
+        <Suspense fallback={<LoadingAnimation />}>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="edit-avatar-modal"
+            aria-describedby="modal-for-editing-avatar"
+            sx={{ padding: 5 }}
+          >
+            <ImagesController />
+          </Modal>
+        </Suspense>
+      </Box>
       <Box sx={{ p: 2, bgcolor: 'background.paper' }}>
         <Typography variant="h4" component="div" gutterBottom style={{ textAlign: 'center' }}>
           {user?.name}
@@ -136,7 +168,7 @@ const PersonalProfile = () => {
           <Grid item xs={12} md={6} spacing={2}>
             <ListItemText primary="Plan Actual" secondary={planLevel(user?.plan)} />
             <Grid item xs={12} md={6} >
-              <Button variant="contained" color="primary" className='spacio'>Cambiar Plan</Button>
+              <Button variant="contained" color="primary" onClick={()=>{navigate('/plans')}}>Cambiar Plan</Button>
             </Grid>
           </Grid>
         </Grid>

@@ -12,17 +12,17 @@ const NotBusiness = () => {
   };
 
   return (
-    <div style={{ position: 'relative', margin: '20px'}}>
+    <div style={{ position: 'relative', margin: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
       <IconButton edge="start" color="inherit" onClick={handleBack} aria-label="back" style={{ position: 'absolute', top: 0, left: 0, zIndex: 1, backgroundColor: 'rgba(128, 128, 128, 0.5)' }}>
         <ArrowBackIcon />
       </IconButton>
-      <img src={logo} alt="apedir" style={{ width: '90%', height: 'auto' }} />
+      <img src={logo} alt="apedir" style={{ width: '50%', height: 'auto' }} />
       <Card>
         <CardContent>
           <Typography variant="h5" component="div">
             No tienes ningún negocio registrado.
           </Typography>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={()=>{navigate('/profile/business/create')}}>
             Crear nuevo negocio
           </Button>
         </CardContent>
