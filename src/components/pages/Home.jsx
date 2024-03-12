@@ -40,6 +40,7 @@ const Home = () => {
 
       const user = await supabase.auth.getUser(); // Obtener el usuario
       console.log(user.data.user.id); // Imprimir el email del usuario
+      setUser(user.data.user.id)
     };
 
     checkAuth(); // Llamar a la función de verificación de autenticación
@@ -78,7 +79,7 @@ const Home = () => {
         <BottomNavigationAction label="Calendar" icon={<CalendarTodayIcon />} />
         <BottomNavigationAction label="Shopping" icon={<ShoppingCartIcon />} />
         <BottomNavigationAction label="Announcements" icon={<Campaign />} />
-        <BottomNavigationAction label="Profile" icon={<Avatar src={Image} />} />
+        <BottomNavigationAction label="Profile" icon={<Avatar src={'https://duerpqsxmxeokygbzexa.supabase.co/storage/v1/object/public/images/'+user+'/avatar.jpg'} />} />
       </BottomNavigation>
     </Box>
   );

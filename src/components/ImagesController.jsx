@@ -9,6 +9,29 @@ const ImagesController = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [avatarUrl, setAvatarUrl] = useState('');
 
+    useEffect(() => {
+        const fetchAvatar = async () => {
+            try {
+                console.log('dentro del use ffect')
+                const userId = (await supabase.auth.getUser()).data.user.id;
+                const { data, error } = await supabase
+                    .from('users')
+                    .select('photoUrl').eq('id', userId);
+                if (error) {
+                    console.error('Error fetching user profile:', error.message);
+                } else {
+                    console.log('cargo bien')
+                    setAvatarUrl(data[0]?.photoUrl);
+                    setIsLoading(false);
+                }
+            } catch (error) {
+                toast.error('Problemas para conectar con el servidor, revise su conexion a internet');
+            }
+        }
+
+        fetchAvatar();
+    }, []);
+
 
     const handleSelectImage = async (event) => {
         const file = event.target.files[0];
@@ -28,6 +51,7 @@ const ImagesController = () => {
             } else {
                 console.log('Image uploaded successfully:', data.fullPath);
                 setSelectedImage(data.fullPath);
+                console.log(data.fullPath)
 
                 // Update the photoUrl field in the user table
                 const { data: userUpdate, error: updateError } = await supabase
@@ -45,10 +69,11 @@ const ImagesController = () => {
     };
 
     const handleRemoveImage = async () => {
-        if (selectedImage) {
+        const userId = (await supabase.auth.getUser()).data.user.id;
+        console.log(avatarUrl)
             const { data, error } = await supabase.storage
                 .from('images') // Replace 'bucket_name' with your actual bucket name
-                .remove([selectedImage]);
+                .remove(userId+'/avatar.jpg');
             if (error) {
                 console.error('Error removing image:', error);
                 toast.error('Error al eliminar la imagen');
@@ -57,29 +82,6 @@ const ImagesController = () => {
                 setSelectedImage(null);
                 toast.success('Imagen eliminada correctamente');
             }
-        }
-
-        useEffect(() => {
-            const fetchAvatar = async () => {
-                const userSB = await supabase.auth.getUser();
-                const userId = userSB.data.user.id;
-                setId(userId);
-
-                const { data, error } = await supabase
-                    .from('users')
-                    .select('photoUrl').eq('id', userId);
-                if (error) {
-                    console.error('Error fetching user profile:', error.message);
-                } else {
-                    console.log('cargo bien')
-                    setAvatarUrl(data[0]?.photoUrl);
-                    setIsLoading(false);
-                }
-            }
-
-            fetchAvatar();
-        }, []);
-
 
     };
 

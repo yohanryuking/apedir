@@ -5,6 +5,8 @@ import { supabase } from '../services/client';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@mui/icons-material/Edit';
 import LoadingAnimation from './utils/LoadingAnimation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import ImagesController from './ImagesController';
 const ImagesController = React.lazy(() => import('./ImagesController'));
 import CloseIcon from '@mui/icons-material/Close';
@@ -44,21 +46,25 @@ const PersonalProfile = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userSB = await supabase.auth.getUser();
-      const userId = userSB.data.user.id;
-      setId(userId);
-
-      const { data, error } = await supabase
-        .from('users')
-        .select('name,phone,plan,email,photoUrl').eq('id', userId);
-      if (error) {
-        console.error('Error fetching user profile:', error.message);
-      } else {
-        setUser(data[0]);
-        setName(data[0]?.name);
-        setEmail(data[0]?.email);
-        setPhone(data[0]?.phone);
-        setAvatarUrl(data[0]?.photoUrl)
+      try {
+        const userId = (await supabase.auth.getUser()).data.user.id;
+        console.log(userId)
+          setId(userId);
+          const { data, error } = await supabase
+            .from('users')
+            .select('name,phone,plan,email,photoUrl').eq('id', userId);
+          if (error) {
+            console.error('Error fetching user profile:', error.message);
+            toast.error('Error fetching user profile: ' + error.message);
+          } else {
+            setUser(data[0]);
+            setName(data[0]?.name);
+            setEmail(data[0]?.email);
+            setPhone(data[0]?.phone);
+            setAvatarUrl(data[0]?.photoUrl)
+          }
+      } catch (error) {
+        toast.error('Problemas para conectar con el servidor, revise su conexion a internet');
       }
     }
     fetchUser();
@@ -75,8 +81,10 @@ const PersonalProfile = () => {
       .eq('id', id);
     if (error) {
       console.error('Error updating user profile:', error.message);
+      toast.error('Error fetching user profile: ' + error.message);
     } else {
       console.log('User profile updated successfully:', data);
+      toast.success('User profile updated successfully'); z
     }
   };
 
@@ -104,6 +112,7 @@ const PersonalProfile = () => {
       height: '100vh',
       bgcolor: 'background.default'
     }}>
+      <ToastContainer />
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <ProfilePicture src={'https://duerpqsxmxeokygbzexa.supabase.co/storage/v1/object/public/' + avatarUrl || 'defaultAvatar.jpg'} />
         <Box >
